@@ -1,0 +1,35 @@
+.container-pagination {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+}
+
+.container-pagination ul {
+    margin-bottom: 0;
+}
+
+.pagination li:not(.disabled) {
+    cursor: pointer;
+}
+
+.no-cursor {
+    cursor: default !important;
+}
+
+.content-numbers-pagination {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.content-text-ppage {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.disabled {
+  pointer-events: none;
+}

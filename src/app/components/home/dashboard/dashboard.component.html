@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="titulo-catalogo">
+    <h3>Dashboard</h3>
+  </div>
+  <hr class="m-0 mb-2">
+  <div class="row mb-2 mt-2">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <div class="content-icon bg-primary">
+            <i class="fa fa-users"></i>
+          </div>
+          <h4 class="card-title w-100 mb-3">Total users</h4>
+          <h2 class="w-100">{{ totalUsers }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <div class="content-icon bg-success">
+            <i class="fa fa-user-check"></i>
+          </div>
+          <h4 class="card-title w-100 mb-3">Enabled users</h4>
+          <h2 class="w-100">{{ totalUsersEnabled }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <div class="content-icon bg-danger">
+            <i class="fa fa-user-times text-white"></i>
+          </div>
+          <h4 class="card-title w-100 mb-3">Disabled users</h4>
+          <h2 class="w-100">{{ totalUsersDisabled }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-7">
+      <div class="card">
+        <div class="card-body text-center">
+          <h4 class="card-title w-100 mb-3">Users by country <b>(DEMO)</b></h4>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <img src="assets/img/map-chart-ejample.JPG" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <div class="card">
+        <div class="card-body d-block text-center">
+          <h4 class="card-title w-100 mb-3">Status users</h4>
+          <div class="row">
+            <div class="col-12">
+              <div style="display: block;" *ngIf="showGarph1">
+                <canvas baseChart
+                        [datasets]="data"
+                        [labels]="doughnutChartLabels"
+                        [chartType]="doughnutChartType">
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

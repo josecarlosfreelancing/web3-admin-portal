@@ -1,0 +1,10 @@
+<app-navbar [user]="user" *ngIf="show"></app-navbar>
+<app-sidebar [user]="user" *ngIf="show"></app-sidebar>
+<div class="content-wrapper" *ngIf="show">
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid pt-3 pb-3">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+</div>

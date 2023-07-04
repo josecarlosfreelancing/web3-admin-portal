@@ -1,0 +1,23 @@
+.form-busqueda {
+  max-width: 450px;
+}
+
+.content-add-roles {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.btn-add-rol {
+  width: 280px;
+}
+
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-group-item span {
+  cursor: pointer;
+  color: red;
+}

@@ -1,0 +1,44 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+    <div class="sidebar-logo">
+      <a href="#" [routerLink]="'/home'" class="brand-link">
+        <span class="brand-text font-weight-light">HMMM</span>
+      </a>
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+    </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img *ngIf="!user.photoURL" src="./../../../assets/img/avatar.webp" class="img-circle elevation-2" alt="User Image">
+          <img *ngIf="user.photoURL" [src]="user.photoURL" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" [routerLink]="'/home'" class="d-block">{{ user.displayName ? user.displayName : user.email }}</a>
+        </div>
+      </div>
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item menu-open">
+            <ul class="nav nav-treeview">
+              <li class="nav-item" *ngIf="showUsers.show">
+                <a href="#" [routerLink]="'users'" routerLinkActive="active" class="nav-link">
+                  <i class="fa fa-user nav-icon"></i>
+                  <p>Users</p>
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="showRoles.show">
+                <a href="#" [routerLink]="'roles'" routerLinkActive="active" class="nav-link">
+                  <i class="fa fa-users nav-icon"></i>
+                  <p>Roles</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+</aside>

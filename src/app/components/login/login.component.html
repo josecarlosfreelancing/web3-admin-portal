@@ -1,0 +1,31 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <br><br>
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="./../assets/img/user-login.png" id="icon" alt="User Icon" style="width: 60px !important;" />
+    </div>
+    <br>
+
+    <!-- Login Form -->
+    <form (ngSubmit)="ingresar()" [formGroup]="frmLogin">
+      <input type="text" id="correo" class="fadeIn second" name="correo" [(ngModel)]="loginModel.correo" formControlName="correo" placeholder="Email">
+      <div *ngIf="frmLogin.controls['correo'].invalid && (frmLogin.controls['correo'].dirty || frmLogin.controls['correo'].touched)">
+        <p *ngIf="frmLogin.get('correo')?.errors?.['required']" class="text-danger h6">Email required</p>
+        <p *ngIf="frmLogin.get('correo')?.errors?.['email']" class="text-danger h6">Email invalid</p>
+      </div>
+      <input type="password" id="contrasenia" class="fadeIn third" name="contrasenia" [(ngModel)]="loginModel.contrasenia" formControlName="contrasenia" placeholder="Password">
+      <div *ngIf="frmLogin.controls['contrasenia'].invalid && (frmLogin.controls['contrasenia'].dirty || frmLogin.controls['contrasenia'].touched)">
+        <p *ngIf="frmLogin.get('contrasenia')?.errors?.['required']" class="text-danger h6">Password required</p>
+      </div>
+      <input type="submit" class="fadeIn fourth mt-4" value="Log in">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#" [routerLink]="['/reset-password']">Forgot your password?</a>
+    </div>
+
+  </div>
+</div>

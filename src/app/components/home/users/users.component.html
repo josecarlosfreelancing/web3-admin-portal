@@ -1,0 +1,199 @@
+<div class="titulo-catalogo">
+  <h3>Users Management</h3>
+  <button class="btn btn-success" (click)="abrirModal(modalUsers, 'new', {})">New User</button>
+</div>
+<form class="d-flex form-busqueda" (ngSubmit)="changeUrl()">
+  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="search" [ngModelOptions]="{standalone: true}">
+  <button class="btn btn-primary" type="submit">Search</button>
+</form>
+<br>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Enabled</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.displayName }}</td>
+      <td>{{ user.name + ' ' + user.lastName | nameUser }}</td>
+      <td>{{ user.email }}</td>
+      <td>
+        <span [outerHTML]="user.disabled | disabledUser"></span>
+      </td>
+      <td align="right" style="width: 200px;">
+        <button type="button" class="btn btn-md btn-primary mr-2" (click)="abrirModal(modalUsers, 'show', user)">
+          <i class="fa fa-eye"></i>
+        </button>
+        <button type="button" class="btn btn-md btn-info mr-2" (click)="abrirModal(modalUsers, 'edit', user)" [disabled]="user.displayName==='Administrator'">
+          <i class="fa fa-pen"></i>
+        </button>
+        <button type="button" class="btn btn-md btn-danger" (click)="abrirModalEliminar(modalConfirmarEliminar, user)" [disabled]="user.displayName==='Administrator'">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="users.length < 1">
+      <td colspan="5" class="text-muted text-center">
+        No hay datos para mostrar
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<app-pagination
+  [paginacion]="pagination"
+  (recargar)="changeUrl()"
+  (nextPage)="nextPage()"
+  (prevPage)="prevPage()"
+></app-pagination>
+
+<ng-template #modalUsers let-modal>
+  <form (ngSubmit)="guardarUsuario()" [formGroup]="frmUser">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{ accion.charAt(0).toUpperCase() + accion.slice(1) }} User</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('close')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row form-group">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="name">Name:</label>
+          <input type="text" id="name" class="form-control input-border-bottom" formControlName="name" [(ngModel)]="user.name">
+          <div
+            *ngIf="frmUser.controls['name'].invalid && (frmUser.controls['name'].dirty || frmUser.controls['name'].touched)">
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['name'].errors!['maxlength']">
+              Maximum 50 characters
+            </p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" class="form-control input-border-bottom" formControlName="lastName" [(ngModel)]="user.lastName">
+          <div
+            *ngIf="frmUser.controls['lastName'].invalid && (frmUser.controls['lastName'].dirty || frmUser.controls['lastName'].touched)">
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['lastName'].errors!['maxlength']">
+              Maximum 80 characters
+            </p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="displayName">Username: *</label>
+          <input type="text" id="displayName" class="form-control input-border-bottom" formControlName="displayName" [(ngModel)]="user.displayName">
+          <div
+            *ngIf="frmUser.controls['displayName'].invalid && (frmUser.controls['displayName'].dirty || frmUser.controls['displayName'].touched)">
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['displayName'].errors!['required']">
+              Required
+            </p>
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['displayName'].errors!['maxlength']">
+              Maximum 25 characters
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="email">Email: *</label>
+          <input type="text" id="email" class="form-control input-border-bottom" formControlName="email" [(ngModel)]="user.email">
+          <div
+            *ngIf="frmUser.controls['email'].invalid && (frmUser.controls['email'].dirty || frmUser.controls['email'].touched)">
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['email'].errors!['required']">
+              Required
+            </p>
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['email'].errors!['email']">
+              Invalid email
+            </p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="password">Password: <font *ngIf="this.accion!='edit'">*</font></label>
+          <input type="password" id="password" class="form-control input-border-bottom" formControlName="password" [(ngModel)]="user.password">
+          <div
+            *ngIf="frmUser.controls['password'].invalid && (frmUser.controls['password'].dirty || frmUser.controls['password'].touched)">
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['password'].errors!['required']">
+              Required
+            </p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="birthDate">Birthdate:</label>
+          <input type="date" id="birthDate" class="form-control input-border-bottom" formControlName="birthDate" [(ngModel)]="user.birthDate">
+          <div
+            *ngIf="frmUser.controls['birthDate'].invalid && (frmUser.controls['birthDate'].dirty || frmUser.controls['birthDate'].touched)">
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['birthDate'].errors!['maxlength']">
+              Invalid date
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" id="phoneNumber" class="form-control input-border-bottom" formControlName="phoneNumber" [(ngModel)]="user.phoneNumber">
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="disabled">Status:</label>
+          <select id="disabled" class="form-select input-border-bottom pr-5" formControlName="disabled" [(ngModel)]="user.disabled">
+            <option [ngValue]="enabled">Enabled</option>
+            <option [ngValue]="disabled">Disabled</option>
+          </select>
+          <div
+            *ngIf="frmUser.controls['disabled'].invalid && (frmUser.controls['disabled'].dirty || frmUser.controls['disabled'].touched)">
+            <p class="m-0 text-danger" *ngIf="frmUser.controls['disabled'].errors!['required']">
+              Required
+            </p>
+          </div>
+        </div>
+        <!--div class="col-12 col-sm-12 col-md-4 col-lg-4">
+          <label for="num"># de usuario:</label>
+          <input type="text" class="form-control input-border-bottom" formControlName="num" [(ngModel)]="user.num">
+        </div-->
+      </div>
+      <div class="row-form-group">
+        <div class="col-12">
+          <label for="roles">Roles:</label>
+          <div class="w-100 content-add-roles">
+            <select class="form-select input-border-bottom pr-5" id="roles" formControlName="roles" [(ngModel)]="rolSelected" *ngIf="!getAccionDisabled()">
+              <option value="">Select Role</option>
+              <option *ngFor="let rol of rolList" [value]="rol.slug">{{ rol.name }}</option>
+            </select>
+            <button type="button" class="btn btn-md btn-success btn-add-rol" (click)="agregarRol()" [disabled]="rolSelected==''" *ngIf="!getAccionDisabled()">Add Role</button>
+          </div>
+          <ul class="list-group" *ngIf="user.roles!.length > 0">
+            <li class="list-group-item" *ngFor="let rol of user.roles">
+              {{ rol | rolesConvert }}
+              <span class="fa fa-trash" (click)="removeRole(rol)" *ngIf="!getAccionDisabled()"></span>
+            </li>
+          </ul>
+          <p class="text-muted" *ngIf="user.roles!.length < 1">No roles selected</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss('close')">Close</button>
+      <button type="submit" class="btn btn-success" *ngIf="!getAccionDisabled()">Save</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #modalConfirmarEliminar let-modalC>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm delete</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalC.dismiss('close')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h3>Do you want to delete user?</h3>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="modalC.dismiss('close')">Close</button>
+    <button type="button" class="btn btn-danger" (click)="eliminarUsuario()">Delete</button>
+  </div>
+</ng-template>
+

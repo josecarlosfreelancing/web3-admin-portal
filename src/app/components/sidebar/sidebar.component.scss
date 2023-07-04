@@ -1,0 +1,35 @@
+.main-sidebar {
+  background: #0D0D0D !important;
+}
+
+.sidebar-logo {
+  display: flex;
+  border-bottom: 1px solid #4b545c;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-logo .brand-link {
+  border: none;
+  align-items: center;
+}
+
+.sidebar-logo .nav-link {
+  height: 40px;
+}
+
+.sidebar-logo .nav-link i {
+  color: #ffff;
+}
+
+@media (min-width: 992px) {
+  .sidebar-logo .nav-link {
+    display: none;
+  }
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: #BF05F2 !important;
+  color: #FFFFFF !important;
+}

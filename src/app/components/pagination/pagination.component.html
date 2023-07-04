@@ -1,0 +1,28 @@
+<div class="container-pagination" *ngIf="paginacion">
+    <div class="content-text-ppage mr-3">
+        Per page
+    </div>
+    <div class="content-por-pagina">
+        <select [(ngModel)]="paginacion.perPage" (change)="changePagination()" class="form-select input-border-bottom cursor-pointer pr-5">
+            <option *ngFor="let value of valuesPerPage" [ngValue]="value">{{ value }}</option>
+        </select>
+    </div>
+    <div class="content-numbers-pagination mr-2">
+        Total pages: {{ !paginacion.totalPages ? 0 : paginacion.totalPages }}
+    </div>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item" [ngClass]="{'disabled': paginacion.page === 1}" (click)="prevPageF()">
+                <span class="page-link">Prev.</span>
+            </li>
+            <li class="page-item no-cursor">
+                <span class="page-link">
+                    Page {{ !paginacion.page ? 1 : paginacion.page }}
+                </span>
+            </li>
+            <li class="page-item" [ngClass]="{'disabled': paginacion.page === paginacion.totalPages}" (click)="nextPageF()">
+                <span class="page-link">Next.</span>
+            </li>
+        </ul>
+    </nav>
+</div>
